@@ -1,0 +1,964 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		31AC1C612EC2C61100BF797F /* IMUStreamer Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 31AC1C602EC2C61100BF797F /* IMUStreamer Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		31AC1C4B2EC2C61100BF797F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31AC1C352EC2C60F00BF797F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 31AC1C3C2EC2C61000BF797F;
+			remoteInfo = IMUStreamer;
+		};
+		31AC1C552EC2C61100BF797F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31AC1C352EC2C60F00BF797F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 31AC1C3C2EC2C61000BF797F;
+			remoteInfo = IMUStreamer;
+		};
+		31AC1C622EC2C61100BF797F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31AC1C352EC2C60F00BF797F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 31AC1C5F2EC2C61100BF797F;
+			remoteInfo = "IMUStreamer Watch App";
+		};
+		31AC1C702EC2C61200BF797F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31AC1C352EC2C60F00BF797F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 31AC1C5F2EC2C61100BF797F;
+			remoteInfo = "IMUStreamer Watch App";
+		};
+		31AC1C7A2EC2C61200BF797F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31AC1C352EC2C60F00BF797F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 31AC1C5F2EC2C61100BF797F;
+			remoteInfo = "IMUStreamer Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		31AC1C862EC2C61200BF797F /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				31AC1C612EC2C61100BF797F /* IMUStreamer Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		31AC1C3D2EC2C61000BF797F /* IMUStreamer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IMUStreamer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		31AC1C4A2EC2C61100BF797F /* IMUStreamerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IMUStreamerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		31AC1C542EC2C61100BF797F /* IMUStreamerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IMUStreamerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		31AC1C602EC2C61100BF797F /* IMUStreamer Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IMUStreamer Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		31AC1C6F2EC2C61200BF797F /* IMUStreamer Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IMUStreamer Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		31AC1C792EC2C61200BF797F /* IMUStreamer Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IMUStreamer Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		31AC1C3F2EC2C61000BF797F /* IMUStreamer */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = IMUStreamer;
+			sourceTree = "<group>";
+		};
+		31AC1C4D2EC2C61100BF797F /* IMUStreamerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = IMUStreamerTests;
+			sourceTree = "<group>";
+		};
+		31AC1C572EC2C61100BF797F /* IMUStreamerUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = IMUStreamerUITests;
+			sourceTree = "<group>";
+		};
+		31AC1C642EC2C61100BF797F /* IMUStreamer Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "IMUStreamer Watch App";
+			sourceTree = "<group>";
+		};
+		31AC1C722EC2C61200BF797F /* IMUStreamer Watch AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "IMUStreamer Watch AppTests";
+			sourceTree = "<group>";
+		};
+		31AC1C7C2EC2C61200BF797F /* IMUStreamer Watch AppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "IMUStreamer Watch AppUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		31AC1C3A2EC2C61000BF797F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C472EC2C61100BF797F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C512EC2C61100BF797F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C5D2EC2C61100BF797F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C6C2EC2C61200BF797F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C762EC2C61200BF797F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		31AC1C342EC2C60F00BF797F = {
+			isa = PBXGroup;
+			children = (
+				31AC1C3F2EC2C61000BF797F /* IMUStreamer */,
+				31AC1C4D2EC2C61100BF797F /* IMUStreamerTests */,
+				31AC1C572EC2C61100BF797F /* IMUStreamerUITests */,
+				31AC1C642EC2C61100BF797F /* IMUStreamer Watch App */,
+				31AC1C722EC2C61200BF797F /* IMUStreamer Watch AppTests */,
+				31AC1C7C2EC2C61200BF797F /* IMUStreamer Watch AppUITests */,
+				31AC1C3E2EC2C61000BF797F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		31AC1C3E2EC2C61000BF797F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				31AC1C3D2EC2C61000BF797F /* IMUStreamer.app */,
+				31AC1C4A2EC2C61100BF797F /* IMUStreamerTests.xctest */,
+				31AC1C542EC2C61100BF797F /* IMUStreamerUITests.xctest */,
+				31AC1C602EC2C61100BF797F /* IMUStreamer Watch App.app */,
+				31AC1C6F2EC2C61200BF797F /* IMUStreamer Watch AppTests.xctest */,
+				31AC1C792EC2C61200BF797F /* IMUStreamer Watch AppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		31AC1C3C2EC2C61000BF797F /* IMUStreamer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31AC1C872EC2C61200BF797F /* Build configuration list for PBXNativeTarget "IMUStreamer" */;
+			buildPhases = (
+				31AC1C392EC2C61000BF797F /* Sources */,
+				31AC1C3A2EC2C61000BF797F /* Frameworks */,
+				31AC1C3B2EC2C61000BF797F /* Resources */,
+				31AC1C862EC2C61200BF797F /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				31AC1C632EC2C61100BF797F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				31AC1C3F2EC2C61000BF797F /* IMUStreamer */,
+			);
+			name = IMUStreamer;
+			packageProductDependencies = (
+			);
+			productName = IMUStreamer;
+			productReference = 31AC1C3D2EC2C61000BF797F /* IMUStreamer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		31AC1C492EC2C61100BF797F /* IMUStreamerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31AC1C8A2EC2C61200BF797F /* Build configuration list for PBXNativeTarget "IMUStreamerTests" */;
+			buildPhases = (
+				31AC1C462EC2C61100BF797F /* Sources */,
+				31AC1C472EC2C61100BF797F /* Frameworks */,
+				31AC1C482EC2C61100BF797F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				31AC1C4C2EC2C61100BF797F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				31AC1C4D2EC2C61100BF797F /* IMUStreamerTests */,
+			);
+			name = IMUStreamerTests;
+			packageProductDependencies = (
+			);
+			productName = IMUStreamerTests;
+			productReference = 31AC1C4A2EC2C61100BF797F /* IMUStreamerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		31AC1C532EC2C61100BF797F /* IMUStreamerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31AC1C8D2EC2C61200BF797F /* Build configuration list for PBXNativeTarget "IMUStreamerUITests" */;
+			buildPhases = (
+				31AC1C502EC2C61100BF797F /* Sources */,
+				31AC1C512EC2C61100BF797F /* Frameworks */,
+				31AC1C522EC2C61100BF797F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				31AC1C562EC2C61100BF797F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				31AC1C572EC2C61100BF797F /* IMUStreamerUITests */,
+			);
+			name = IMUStreamerUITests;
+			packageProductDependencies = (
+			);
+			productName = IMUStreamerUITests;
+			productReference = 31AC1C542EC2C61100BF797F /* IMUStreamerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		31AC1C5F2EC2C61100BF797F /* IMUStreamer Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31AC1C832EC2C61200BF797F /* Build configuration list for PBXNativeTarget "IMUStreamer Watch App" */;
+			buildPhases = (
+				31AC1C5C2EC2C61100BF797F /* Sources */,
+				31AC1C5D2EC2C61100BF797F /* Frameworks */,
+				31AC1C5E2EC2C61100BF797F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				31AC1C642EC2C61100BF797F /* IMUStreamer Watch App */,
+			);
+			name = "IMUStreamer Watch App";
+			packageProductDependencies = (
+			);
+			productName = "IMUStreamer Watch App";
+			productReference = 31AC1C602EC2C61100BF797F /* IMUStreamer Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		31AC1C6E2EC2C61200BF797F /* IMUStreamer Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31AC1C902EC2C61200BF797F /* Build configuration list for PBXNativeTarget "IMUStreamer Watch AppTests" */;
+			buildPhases = (
+				31AC1C6B2EC2C61200BF797F /* Sources */,
+				31AC1C6C2EC2C61200BF797F /* Frameworks */,
+				31AC1C6D2EC2C61200BF797F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				31AC1C712EC2C61200BF797F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				31AC1C722EC2C61200BF797F /* IMUStreamer Watch AppTests */,
+			);
+			name = "IMUStreamer Watch AppTests";
+			packageProductDependencies = (
+			);
+			productName = "IMUStreamer Watch AppTests";
+			productReference = 31AC1C6F2EC2C61200BF797F /* IMUStreamer Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		31AC1C782EC2C61200BF797F /* IMUStreamer Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31AC1C932EC2C61200BF797F /* Build configuration list for PBXNativeTarget "IMUStreamer Watch AppUITests" */;
+			buildPhases = (
+				31AC1C752EC2C61200BF797F /* Sources */,
+				31AC1C762EC2C61200BF797F /* Frameworks */,
+				31AC1C772EC2C61200BF797F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				31AC1C7B2EC2C61200BF797F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				31AC1C7C2EC2C61200BF797F /* IMUStreamer Watch AppUITests */,
+			);
+			name = "IMUStreamer Watch AppUITests";
+			packageProductDependencies = (
+			);
+			productName = "IMUStreamer Watch AppUITests";
+			productReference = 31AC1C792EC2C61200BF797F /* IMUStreamer Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		31AC1C352EC2C60F00BF797F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					31AC1C3C2EC2C61000BF797F = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					31AC1C492EC2C61100BF797F = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 31AC1C3C2EC2C61000BF797F;
+					};
+					31AC1C532EC2C61100BF797F = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 31AC1C3C2EC2C61000BF797F;
+					};
+					31AC1C5F2EC2C61100BF797F = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					31AC1C6E2EC2C61200BF797F = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 31AC1C5F2EC2C61100BF797F;
+					};
+					31AC1C782EC2C61200BF797F = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 31AC1C5F2EC2C61100BF797F;
+					};
+				};
+			};
+			buildConfigurationList = 31AC1C382EC2C60F00BF797F /* Build configuration list for PBXProject "IMUStreamer" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 31AC1C342EC2C60F00BF797F;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 31AC1C3E2EC2C61000BF797F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				31AC1C3C2EC2C61000BF797F /* IMUStreamer */,
+				31AC1C492EC2C61100BF797F /* IMUStreamerTests */,
+				31AC1C532EC2C61100BF797F /* IMUStreamerUITests */,
+				31AC1C5F2EC2C61100BF797F /* IMUStreamer Watch App */,
+				31AC1C6E2EC2C61200BF797F /* IMUStreamer Watch AppTests */,
+				31AC1C782EC2C61200BF797F /* IMUStreamer Watch AppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		31AC1C3B2EC2C61000BF797F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C482EC2C61100BF797F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C522EC2C61100BF797F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C5E2EC2C61100BF797F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C6D2EC2C61200BF797F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C772EC2C61200BF797F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		31AC1C392EC2C61000BF797F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C462EC2C61100BF797F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C502EC2C61100BF797F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C5C2EC2C61100BF797F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C6B2EC2C61200BF797F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31AC1C752EC2C61200BF797F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		31AC1C4C2EC2C61100BF797F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 31AC1C3C2EC2C61000BF797F /* IMUStreamer */;
+			targetProxy = 31AC1C4B2EC2C61100BF797F /* PBXContainerItemProxy */;
+		};
+		31AC1C562EC2C61100BF797F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 31AC1C3C2EC2C61000BF797F /* IMUStreamer */;
+			targetProxy = 31AC1C552EC2C61100BF797F /* PBXContainerItemProxy */;
+		};
+		31AC1C632EC2C61100BF797F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 31AC1C5F2EC2C61100BF797F /* IMUStreamer Watch App */;
+			targetProxy = 31AC1C622EC2C61100BF797F /* PBXContainerItemProxy */;
+		};
+		31AC1C712EC2C61200BF797F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 31AC1C5F2EC2C61100BF797F /* IMUStreamer Watch App */;
+			targetProxy = 31AC1C702EC2C61200BF797F /* PBXContainerItemProxy */;
+		};
+		31AC1C7B2EC2C61200BF797F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 31AC1C5F2EC2C61100BF797F /* IMUStreamer Watch App */;
+			targetProxy = 31AC1C7A2EC2C61200BF797F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		31AC1C812EC2C61200BF797F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		31AC1C822EC2C61200BF797F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		31AC1C842EC2C61200BF797F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = IMUStreamer;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = hwnam.IMUStreamer;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hwnam.IMUStreamer.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		31AC1C852EC2C61200BF797F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = IMUStreamer;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = hwnam.IMUStreamer;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hwnam.IMUStreamer.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
+		31AC1C882EC2C61200BF797F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = IMUStreamer;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hwnam.IMUStreamer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		31AC1C892EC2C61200BF797F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = IMUStreamer;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hwnam.IMUStreamer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		31AC1C8B2EC2C61200BF797F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hwnam.IMUStreamerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IMUStreamer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IMUStreamer";
+			};
+			name = Debug;
+		};
+		31AC1C8C2EC2C61200BF797F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hwnam.IMUStreamerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IMUStreamer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IMUStreamer";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		31AC1C8E2EC2C61200BF797F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hwnam.IMUStreamerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = IMUStreamer;
+			};
+			name = Debug;
+		};
+		31AC1C8F2EC2C61200BF797F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hwnam.IMUStreamerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = IMUStreamer;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		31AC1C912EC2C61200BF797F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hwnam.IMUStreamer-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IMUStreamer Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IMUStreamer Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		31AC1C922EC2C61200BF797F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hwnam.IMUStreamer-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IMUStreamer Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IMUStreamer Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
+		31AC1C942EC2C61200BF797F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hwnam.IMUStreamer-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "IMUStreamer Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		31AC1C952EC2C61200BF797F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CXVU2W4638;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hwnam.IMUStreamer-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "IMUStreamer Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		31AC1C382EC2C60F00BF797F /* Build configuration list for PBXProject "IMUStreamer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31AC1C812EC2C61200BF797F /* Debug */,
+				31AC1C822EC2C61200BF797F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		31AC1C832EC2C61200BF797F /* Build configuration list for PBXNativeTarget "IMUStreamer Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31AC1C842EC2C61200BF797F /* Debug */,
+				31AC1C852EC2C61200BF797F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		31AC1C872EC2C61200BF797F /* Build configuration list for PBXNativeTarget "IMUStreamer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31AC1C882EC2C61200BF797F /* Debug */,
+				31AC1C892EC2C61200BF797F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		31AC1C8A2EC2C61200BF797F /* Build configuration list for PBXNativeTarget "IMUStreamerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31AC1C8B2EC2C61200BF797F /* Debug */,
+				31AC1C8C2EC2C61200BF797F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		31AC1C8D2EC2C61200BF797F /* Build configuration list for PBXNativeTarget "IMUStreamerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31AC1C8E2EC2C61200BF797F /* Debug */,
+				31AC1C8F2EC2C61200BF797F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		31AC1C902EC2C61200BF797F /* Build configuration list for PBXNativeTarget "IMUStreamer Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31AC1C912EC2C61200BF797F /* Debug */,
+				31AC1C922EC2C61200BF797F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		31AC1C932EC2C61200BF797F /* Build configuration list for PBXNativeTarget "IMUStreamer Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31AC1C942EC2C61200BF797F /* Debug */,
+				31AC1C952EC2C61200BF797F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 31AC1C352EC2C60F00BF797F /* Project object */;
+}
