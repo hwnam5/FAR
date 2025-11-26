@@ -74,98 +74,79 @@ def create_directory_structure(model_type: str):
 # =============================================================================
 
 # TinyHAR
-class Temporal_Attention(nn.Module):
-    """
-    Temporal attention module
-    """
-    def __init__(self, sensor_channel, hidden_dim):
-        super().__init__()
+"""
+1. Individual CNN 1D Architecture
 
-        self.fc_1 = nn.Linear(hidden_dim, hidden_dim)
-        self.weighs_activation = nn.Tanh() 
-        self.fc_2 = nn.Linear(hidden_dim, 1, bias=False)
-        self.sm = torch.nn.Softmax(dim=1)
-        self.gamma = nn.Parameter(torch.tensor([0.]))
+각 센서 채널별로 독립적인 1D CNN을 적용하여 채널별 특성을 추출합니다.
 
-    def forward(self, x):
-
-        # batch  sensor_channel feature_dim
-        #B C F
-
-        out = self.weighs_activation(self.fc_1(x))
-
-        out = self.fc_2(out).squeeze(2)
-
-        weights_att = self.sm(out).unsqueeze(2)
-
-        context = torch.sum(weights_att * x, 1)
-        context = x[:, -1, :] + self.gamma * context # 마지막 시점에 전역 요약을 더해줌
-
-        return context
-
-class TinyHAR(nn.Module):
-    def __init__(self, input_size: int = 10, hidden_size: int = 128, 
-                 num_layers: int = 2, output_size: int = 2, dropout: float = 0.2):
+Tensor Shape 변화:
+    Input:  [batch_size, num_channels, seq_length]
+    Split:  [batch_size, 1, seq_length] (각 채널별로 분할)
+    CNN:    [batch_size, num_filters, seq_length] (각 채널별 출력)
+    Concat: [batch_size, num_channels * num_filters, seq_length] (채널 결합)
+"""
+class Individual_CNN_1D(nn.Module):
+    def __init__(self, input_size: int = 1, filter_size: int = 32, kernel_size: int = 5,
+                 stride: int = 2, num_layers: int = 4):
         super().__init__()
         self.input_size = input_size
-        self.hidden_size = hidden_size
+        self.kernel_size = kernel_size
+        self.stride = stride
         self.num_layers = num_layers
-        self.output_size = output_size
-        self.dropout = dropout
-
-        self.conv1d = nn.Sequential(
-            nn.Conv1d(input_size, hidden_size, kernel_size=3, padding=1),
-            nn.LeakyReLU(0.1),
-            nn.Dropout(dropout),
-            nn.Conv1d(hidden_size, hidden_size, kernel_size=3, padding=1),
-            nn.LeakyReLU(0.1),
-            nn.Dropout(dropout),
-            nn.Conv1d(hidden_size, hidden_size, kernel_size=3, padding=1),
-            nn.LeakyReLU(0.1),
-            nn.Dropout(dropout),
-            nn.Conv1d(hidden_size, hidden_size, kernel_size=3, padding=1),
-            nn.LeakyReLU(0.1),
-            nn.Dropout(dropout),
-            nn.Conv1d(hidden_size, hidden_size, kernel_size=3, padding=1),
-        )
-
-        self.self_attention = nn.MultiheadAttention(
-            embed_dim=hidden_size,
-            num_heads=4,
-            batch_first=True)
+        self.filter_size = filter_size
+        padding = kernel_size // 2
+        layers = []
         
-        self.flatten = nn.Flatten()
-
-        self.fc1 = nn.Linear(hidden_size, hidden_size // 2)
-
-        self.lstm = nn.LSTM(
-            input_size=hidden_size // 2,
-            hidden_size=hidden_size // 2,
-            num_layers=2,
-            dropout=dropout,
-            batch_first=True)
+        layers += [
+            nn.Conv1d(
+                in_channels=self.input_size,
+                out_channels=self.filter_size,
+                kernel_size=self.kernel_size,
+                stride=self.stride,
+                padding=padding
+            ),
+            nn.BatchNorm1d(self.filter_size),
+            nn.ReLU()
+        ]
         
-        self.temporal_attention = Temporal_Attention(sensor_channel=input_size, hidden_dim=hidden_size // 2)
-
-        self.fc2 = nn.Linear(hidden_size // 2, output_size)
-
-    def forward(self, x):
-
-        x = x.permute(0, 2, 1)
-        x = self.conv1d(x)
-
-        x = x.permute(0, 2, 1)
-        x = self.self_attention(x)
-
-        x = self.flatten(x)
-        x = self.fc1(x)
-
-        x = self.lstm(x)
-
-        x = self.temporal_attention(x)
-        x = self.fc2(x)
-
+        for _ in range(self.num_layers - 1):
+            layers += [
+                nn.Conv1d(
+                    in_channels=self.filter_size,
+                    out_channels=self.filter_size,
+                    kernel_size=self.kernel_size,
+                    stride=self.stride,
+                    padding=padding
+                ),
+                nn.BatchNorm1d(self.filter_size),
+                nn.ReLU()
+            ]
+        
+        self.layers = nn.Sequential(*layers)
+            
+    def forward(self, one_channel_x):
+        # one_channel_x : [batch_size, 1, seq_length]
+        x = self.layers(one_channel_x)
         return x
+        
+class TinyHAR(nn.Module):
+    def __init__(self, input_size: int = Config.INPUT_CHANNELS):
+        super().__init__()
+        
+        for i in range(input_size):
+            self.cnn4channels[i] = Individual_CNN_1D(input_size=1, filter_size=32, kernel_size=5, stride=2, num_layers=4)
+            
+    def forward(self, x):
+        # x : [batch_size, num_channels, seq_length]
+        cnn_outputs = []
+        for i in range(Config.INPUT_CHANNELS):
+            cnn_output = self.cnn4channels[i](x[:, i, :])
+            cnn_outputs.append(cnn_output)
+        cnn_outputs = torch.cat(cnn_outputs, dim=1)
+        return cnn_outputs
+        
+        
+        
 
 # =============================================================================
 # Utility Functions
