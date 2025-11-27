@@ -94,6 +94,7 @@ class Individual_CNN_1D(nn.Module):
         self.stride = stride
         self.num_layers = num_layers
         self.filter_size = filter_size
+        
         padding = kernel_size // 2
         layers = []
         
@@ -128,13 +129,78 @@ class Individual_CNN_1D(nn.Module):
         # one_channel_x : [batch_size, 1, seq_length]
         x = self.layers(one_channel_x)
         return x
+    
+""" 
+2. Transformer encoder: Cross-channel info interaction
+
+각 채널별로 추출된 특성을 통해 채널 간 정보 상호작용을 학습합니다.
+Tensor Shape 변화:
+    Input:  [batch_size, num_channels, num_filters, seq_length]
+    Transformer: [batch_size * seq_length, num_channels, num_filters]
+    Output: [batch_size, num_channels, num_filters, seq_length]
+"""
+class Cross_channel_Transformer_Encoder(nn.Module):
+    def __init__(self, num_channels: int = Config.INPUT_CHANNELS, num_filters: int = 32,
+                 seq_length: int = 100, num_encoder_layers: int = 1, num_heads: int = 4):
+        super().__init__()
         
+        self.num_channels = num_channels
+        self.num_filters = num_filters
+        self.seq_length = seq_length
+        self.num_encoder_layers = num_encoder_layers
+        self.num_heads = num_heads
+        
+        encoder_layer = nn.TransformerEncoderLayer(
+            d_model=self.num_filters,
+            nhead=self.num_heads,
+            dim_feedforward=self.num_filters * self.num_heads,
+            dropout=0.1
+        )
+        self.transformer_encoder = nn.TransformerEncoder(
+            encoder_layer,
+            num_layers=self.num_encoder_layers
+        )
+        
+    def forward(self, x):
+        # x : [B, C, F, T] -> [B * T, C, F]
+        B, C, F, T = x.shape
+        x = x.permute(0, 3, 1, 2)
+        x = x.reshape(B * T, C, F)
+        
+        x = self.transformer_encoder(x)
+        
+        # [B * T, C, F] -> [B, T, C, F]
+        x = x.reshape(B, T, C, F)
+        return x
+
+# 마지막에 각 채널의 독립적인 FC Layer를 적용하여 채널별 특성을 추출합니다.
+class Cross_channel_FC_Layer(nn.Module):
+    def __init__(self, num_channels: int = 1, num_filters: int = 32):
+        super().__init__()
+        self.num_channels = num_channels
+        self.num_filters = num_filters
+        
+        self.fc_layer = nn.Sequential(
+            nn.Linear(self.num_filters, self.num_filters * 2),
+            nn.BatchNorm1d(self.num_filters * 2),
+            nn.ReLU(),
+            nn.Linear(self.num_filters * 2, self.num_filters),
+        )
+        
+    def forward(self, x):
+        x = self.fc_layer(x)
+        return x
+
 class TinyHAR(nn.Module):
     def __init__(self, input_size: int = Config.INPUT_CHANNELS):
         super().__init__()
         
         for i in range(input_size):
             self.cnn4channels[i] = Individual_CNN_1D(input_size=1, filter_size=32, kernel_size=5, stride=2, num_layers=4)
+        
+        self.cross_channel_transformer_encoder = Cross_channel_Transformer_Encoder(num_channels=Config.INPUT_CHANNELS, num_filters=32, seq_length=100, num_encoder_layers=1, num_heads=4)
+        for i in range(input_size):
+            self.cross_channel_fc_layer[i] = Cross_channel_FC_Layer(num_channels=1, num_filters=32)
             
     def forward(self, x):
         # x : [batch_size, num_channels, seq_length]
@@ -142,8 +208,20 @@ class TinyHAR(nn.Module):
         for i in range(Config.INPUT_CHANNELS):
             cnn_output = self.cnn4channels[i](x[:, i, :])
             cnn_outputs.append(cnn_output)
-        cnn_outputs = torch.cat(cnn_outputs, dim=1)
-        return cnn_outputs
+        x = torch.cat(cnn_outputs, dim=1)
+        
+        x = self.cross_channel_transformer_encoder(x)
+        B, T, C, F = x.shape
+        
+        fc_outputs = []
+        for i in range(Config.INPUT_CHANNELS):
+            fc_output = self.cross_channel_fc_layer[i](x[:, :, i, :])
+            fc_outputs.append(fc_output)
+        x = torch.cat(fc_outputs, dim=2)
+        
+        # [B, T, C, F] -> [B, C, F, T]
+        x = x.reshape(B, C, F, T)
+        return x
         
         
         
