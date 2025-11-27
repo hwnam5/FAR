@@ -238,9 +238,9 @@ class Global_Temporal_LSTM(nn.Module):
         )
 
     def forward(self, x):
-        x = self.lstm(x)
+        lstm_output, _ = self.lstm(x)
 
-        return x
+        return lstm_output
 
 """
 5.Temporal Attention: Global Temporal Info Enhancement
