@@ -352,10 +352,21 @@ class TinyHAR(nn.Module):
         # 6. Output Layer
         x = self.output_layer(x)
         
+        #Initialize weights
+        self._init_weights()
         return x
-        
-        
-        
+    
+    def _init_weights(self):
+        def _init_layer(layer):
+            if isinstance(layer, nn.Linear):
+                nn.init.kaiming_normal_(layer.weight, a=0.1)
+                if layer.bias is not None:
+                    nn.init.constant_(layer.bias, 0)
+            elif isinstance(layer, (nn.LayerNorm, nn.BatchNorm1d)):
+                nn.init.constant_(layer.weight, 1)
+                nn.init.constant_(layer.bias, 0)
+                
+        self.apply(_init_layer)
 
 # =============================================================================
 # Utility Functions
@@ -402,7 +413,7 @@ def setup_multi_gpu(model: nn.Module, device: torch.device) -> Tuple[nn.Module, 
 def parse_args():
     """Parse command line arguments"""
 
-    parser = argparse.ArgumentParser(description="FAR Training and Testing")
+    parser = argparse.ArgumentParser(description="TinyHAR Classification Training and Testing")
     parser.add_argument("--mode", type=str, required=True, choices=["train", "test"])
 
     args = parser.parse_args()
