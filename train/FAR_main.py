@@ -191,6 +191,85 @@ class Cross_channel_FC_Layer(nn.Module):
         x = self.fc_layer(x)
         return x
 
+"""
+3. Fully Connected Layer: Cross-Channel Info Fusion
+모든 센서 채널로부터 추출된 특성을 융합합니다. + Bottleneck 역할을 합니다.
+Tensor Shape 변화:
+    Input:  [batch_size, seq_length, num_channels, num_filters]
+    FC:     [batch_size, seq_length, num_channels * num_filters]
+    Output: [batch_size, seq_length, 2 * num_filters]
+"""
+class Channel_Fusion_FC_Layer(nn.Module):
+    def __init__(self, num_channels: int = Config.INPUT_CHANNELS, num_filters: int = 32):
+        super().__init__()
+        self.num_channels = num_channels
+        self.num_filters = num_filters
+        
+        self.fc_layer = nn.Sequential(
+            nn.Linear(self.num_channels * self.num_filters, self.num_filters * 2),
+            nn.BatchNorm1d(self.num_filters * 2),
+            nn.ReLU()
+        )
+
+    def forward(self, x):
+        x = self.fc_layer(x)
+        return x
+
+"""
+4. One-Layer LSTM: Global Temporal Info Extraction
+LSTM을 사용하여 전역적인 시간 정보를 추출합니다.
+Tensor Shape 변화:
+    Input:  [batch_size, seq_length, 2 * num_filters]
+    LSTM
+    Output: [batch_size, seq_length, 2 * num_filters]
+"""
+class Global_Temporal_LSTM(nn.Module):
+    def __init__(self, input_size: int = 2 * 32, output_size: int = 2 * 32):
+        super().__init__()
+        self.input_size = input_size
+        self.output_size = output_size
+        
+        self.lstm = nn.LSTM(
+            input_size=self.input_size,
+            hidden_size=self.output_size,
+            num_layers=1,
+            batch_first=True,
+            bidirectional=False
+        )
+
+    def forward(self, x):
+        x = self.lstm(x)
+
+        return x
+
+"""
+5.Temporal Attention: Global Temporal Info Enhancement
+LSTM 출력의 마지막 시간 축과 각 시간 축의 은닉 상태에 대해 가중 평균 합을 합치는 역할을 합니다.
+이를 통해 전역 시간 정보 강화를 합니다.
+"""
+class Temporal_Attention(nn.Module):
+    def __init__(self, input_size: int = 2 * 32):
+        super().__init__()
+        self.input_size = input_size
+
+        self.attn_weights = nn.Linear(self.input_size, 1)
+
+    def forward(self, x):
+
+        last_hidden_state = x[:, -1, :] # [batch_size, 2 * 32]
+
+        attn_weights = self.attn_weights(x)
+        attn_weights = F.softmax(attn_weights, dim=1) # [batch_size, seq_length, 1]
+
+        # 시간별 중요도를 각 시간 feature에 곱하여 합치는 역할
+        context = torch.sum(attn_weights * x, dim=1) # [batch_size, 2 * 32]
+
+        enhanced_context = last_hidden_state + context # [batch_size, 2 * 32]
+
+        return enhanced_context
+
+
+
 class TinyHAR(nn.Module):
     def __init__(self, input_size: int = Config.INPUT_CHANNELS):
         super().__init__()
@@ -201,7 +280,11 @@ class TinyHAR(nn.Module):
         self.cross_channel_transformer_encoder = Cross_channel_Transformer_Encoder(num_channels=Config.INPUT_CHANNELS, num_filters=32, seq_length=100, num_encoder_layers=1, num_heads=4)
         for i in range(input_size):
             self.cross_channel_fc_layer[i] = Cross_channel_FC_Layer(num_channels=1, num_filters=32)
-            
+
+        self.channel_fusion_fc_layer = Channel_Fusion_FC_Layer(num_channels=Config.INPUT_CHANNELS, num_filters=32)
+        
+        self.global_temporal_lstm = Global_Temporal_LSTM(input_size=2 * 32, output_size=2 * 32)
+
     def forward(self, x):
         # x : [batch_size, num_channels, seq_length]
         cnn_outputs = []
@@ -219,8 +302,11 @@ class TinyHAR(nn.Module):
             fc_outputs.append(fc_output)
         x = torch.cat(fc_outputs, dim=2)
         
-        # [B, T, C, F] -> [B, C, F, T]
-        x = x.reshape(B, C, F, T)
+        # [B, T, C, F] -> [B, T, C * F]
+        x = x.reshape(B, T, C * F)
+        x = self.channel_fusion_fc_layer(x)
+
+        x = self.global_temporal_lstm(x)
         return x
         
         
