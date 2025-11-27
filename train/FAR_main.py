@@ -246,6 +246,11 @@ class Global_Temporal_LSTM(nn.Module):
 5.Temporal Attention: Global Temporal Info Enhancement
 LSTM 출력의 마지막 시간 축과 각 시간 축의 은닉 상태에 대해 가중 평균 합을 합치는 역할을 합니다.
 이를 통해 전역 시간 정보 강화를 합니다.
+Tensor Shape 변화:
+    Input:  [batch_size, seq_length, 2 * num_filters]
+    Attention: [batch_size, seq_length, 1]
+    Context:  [batch_size, 2 * num_filters]
+    Enhanced Context: [batch_size, 2 * num_filters]
 """
 class Temporal_Attention(nn.Module):
     def __init__(self, input_size: int = 2 * 32):
@@ -253,6 +258,7 @@ class Temporal_Attention(nn.Module):
         self.input_size = input_size
 
         self.attn_weights = nn.Linear(self.input_size, 1)
+        self.gamma = nn.Parameter(torch.zeros(1))
 
     def forward(self, x):
 
@@ -264,12 +270,36 @@ class Temporal_Attention(nn.Module):
         # 시간별 중요도를 각 시간 feature에 곱하여 합치는 역할
         context = torch.sum(attn_weights * x, dim=1) # [batch_size, 2 * 32]
 
-        enhanced_context = last_hidden_state + context # [batch_size, 2 * 32]
+        enhanced_context = last_hidden_state + self.gamma * context # [batch_size, 2 * 32]
 
         return enhanced_context
 
+""" 
+6. Output Layer: Fitness State Classification
+최종 출력 레이어를 정의합니다.
+Tensor Shape 변화:
+    Input:  [batch_size, 2 * num_filters]
+    Output: [batch_size, num_classes]
+"""
+class Output_Layer(nn.Module):
+    def __init__(self, input_size: int = 2 * 32, output_size: int = Config.OUTPUT_CHANNELS):
+        super().__init__()
+        self.input_size = input_size
+        self.output_size = output_size
+        
+        self.output_layer = nn.Sequential(
+            nn.Linear(self.input_size, self.output_size),
+            nn.Softmax(dim=1)
+        )
+        
+    def forward(self, x):
+        x = self.output_layer(x)
+        return x
 
-
+""" 
+Architecture of TinyHAR
+모든 구조를 하나의 모델로 통합합니다. -> TinyHAR 모델
+"""
 class TinyHAR(nn.Module):
     def __init__(self, input_size: int = Config.INPUT_CHANNELS):
         super().__init__()
@@ -284,29 +314,44 @@ class TinyHAR(nn.Module):
         self.channel_fusion_fc_layer = Channel_Fusion_FC_Layer(num_channels=Config.INPUT_CHANNELS, num_filters=32)
         
         self.global_temporal_lstm = Global_Temporal_LSTM(input_size=2 * 32, output_size=2 * 32)
+        
+        self.temporal_attention = Temporal_Attention(input_size=2 * 32)
+        
+        self.output_layer = Output_Layer(input_size=2 * 32, output_size=Config.OUTPUT_CHANNELS)
 
     def forward(self, x):
         # x : [batch_size, num_channels, seq_length]
+        # 1. Individual CNN 1D
         cnn_outputs = []
         for i in range(Config.INPUT_CHANNELS):
             cnn_output = self.cnn4channels[i](x[:, i, :])
             cnn_outputs.append(cnn_output)
         x = torch.cat(cnn_outputs, dim=1)
         
+        # 2-1. Transformer encoder: Cross-channel info interaction
         x = self.cross_channel_transformer_encoder(x)
         B, T, C, F = x.shape
         
+        # 2-2. Fully Connected Layer: Cross-Channel Info Fusion
         fc_outputs = []
         for i in range(Config.INPUT_CHANNELS):
             fc_output = self.cross_channel_fc_layer[i](x[:, :, i, :])
             fc_outputs.append(fc_output)
         x = torch.cat(fc_outputs, dim=2)
         
-        # [B, T, C, F] -> [B, T, C * F]
-        x = x.reshape(B, T, C * F)
+        # 3. Channel Fusion FC Layer
+        x = x.reshape(B, T, C * F) #[B, T, C, F] -> [B, T, C * F]
         x = self.channel_fusion_fc_layer(x)
 
+        # 4. Global Temporal LSTM
         x = self.global_temporal_lstm(x)
+        
+        # 5. Temporal Attention
+        x = self.temporal_attention(x)
+        
+        # 6. Output Layer
+        x = self.output_layer(x)
+        
         return x
         
         
