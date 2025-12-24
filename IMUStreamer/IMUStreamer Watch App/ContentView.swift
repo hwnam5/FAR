@@ -33,16 +33,16 @@ struct ContentView: View {
                     HStack {
                         VStack(alignment: .leading) {
                             Text("Acc").bold()
-                            Text("X:\(motion.accX, specifier: "%.1f")")
-                            Text("Y:\(motion.accY, specifier: "%.1f")")
-                            Text("Z:\(motion.accZ, specifier: "%.1f")")
+                            Text("X:\(motion.accX, specifier: "%.3f")")
+                            Text("Y:\(motion.accY, specifier: "%.3f")")
+                            Text("Z:\(motion.accZ, specifier: "%.3f")")
                         }
                         Spacer()
                         VStack(alignment: .leading) {
                             Text("Gyro").bold()
-                            Text("X:\(motion.gyroX, specifier: "%.1f")")
-                            Text("Y:\(motion.gyroY, specifier: "%.1f")")
-                            Text("Z:\(motion.gyroZ, specifier: "%.1f")")
+                            Text("X:\(motion.gyroX, specifier: "%.3f")")
+                            Text("Y:\(motion.gyroY, specifier: "%.3f")")
+                            Text("Z:\(motion.gyroZ, specifier: "%.3f")")
                         }
                     }
                     .font(.system(size: 12, design: .monospaced))
