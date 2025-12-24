@@ -75,143 +75,298 @@ def create_directory_structure(model_type: str):
 # Classification Model Architecture Classes
 # =============================================================================
 
-# encoder
-class Encoder(nn.Module):
-    def __init__(self, input_size: int = 2, hidden_size: int = 128, 
-                 num_layers: int = 2, output_size: int = 2, dropout: float = 0.2):
+# TinyHAR
+"""
+1. Individual CNN 1D Architecture
+
+각 센서 채널별로 독립적인 1D CNN을 적용하여 채널별 특성을 추출합니다.
+
+Tensor Shape 변화:
+    Input:  [batch_size, num_channels, seq_length]
+    Split:  [batch_size, 1, seq_length] (각 채널별로 분할)
+    CNN:    [batch_size, num_filters, seq_length] (각 채널별 출력)
+    Concat: [batch_size, num_channels * num_filters, seq_length] (채널 결합)
+"""
+class Individual_CNN_1D(nn.Module):
+    def __init__(self, input_size: int = 1, filter_size: int = 32, kernel_size: int = 5,
+                 stride: int = 2, num_layers: int = 4):
         super().__init__()
         self.input_size = input_size
-        self.hidden_size = hidden_size
+        self.kernel_size = kernel_size
+        self.stride = stride
         self.num_layers = num_layers
-        self.output_size = output_size
-        self.dropout = dropout
+        self.filter_size = filter_size
+        
+        padding = kernel_size // 2
+        layers = []
+        
+        layers += [
+            nn.Conv1d(
+                in_channels=self.input_size,
+                out_channels=self.filter_size,
+                kernel_size=self.kernel_size,
+                stride=self.stride,
+                padding=padding
+            ),
+            nn.BatchNorm1d(self.filter_size),
+            nn.ReLU()
+        ]
+        
+        for _ in range(self.num_layers - 1):
+            layers += [
+                nn.Conv1d(
+                    in_channels=self.filter_size,
+                    out_channels=self.filter_size,
+                    kernel_size=self.kernel_size,
+                    stride=self.stride,
+                    padding=padding
+                ),
+                nn.BatchNorm1d(self.filter_size),
+                nn.ReLU()
+            ]
+        
+        self.layers = nn.Sequential(*layers)
+            
+    def forward(self, one_channel_x):
+        # one_channel_x : [batch_size, 1, seq_length]
+        x = self.layers(one_channel_x)
+        return x
+    
+""" 
+2. Transformer encoder: Cross-channel info interaction
 
-        self.conv1d = nn.Sequential(
-            nn.Conv1d(input_size, hidden_size, kernel_size=3, padding=1),
-            nn.LeakyReLU(0.1),
-            nn.Dropout(dropout),
-            nn.Conv1d(hidden_size, hidden_size, kernel_size=3, padding=1),
-            nn.LeakyReLU(0.1),
-            nn.Dropout(dropout),
-            nn.Conv1d(hidden_size, hidden_size, kernel_size=3, padding=1),
-            nn.LeakyReLU(0.1),
-            nn.Dropout(dropout),
-            nn.Conv1d(hidden_size, hidden_size, kernel_size=3, padding=1),
-            nn.LeakyReLU(0.1),
-            nn.Dropout(dropout),
-            nn.Conv1d(hidden_size, hidden_size, kernel_size=3, padding=1),
+각 채널별로 추출된 특성을 통해 채널 간 정보 상호작용을 학습합니다.
+Tensor Shape 변화:
+    Input:  [batch_size, num_channels, num_filters, seq_length]
+    Transformer: [batch_size * seq_length, num_channels, num_filters]
+    Output: [batch_size, num_channels, num_filters, seq_length]
+"""
+class Cross_channel_Transformer_Encoder(nn.Module):
+    def __init__(self, num_channels: int = Config.INPUT_CHANNELS, num_filters: int = 32,
+                 seq_length: int = 100, num_encoder_layers: int = 1, num_heads: int = 4):
+        super().__init__()
+        
+        self.num_channels = num_channels
+        self.num_filters = num_filters
+        self.seq_length = seq_length
+        self.num_encoder_layers = num_encoder_layers
+        self.num_heads = num_heads
+        
+        encoder_layer = nn.TransformerEncoderLayer(
+            d_model=self.num_filters,
+            nhead=self.num_heads,
+            dim_feedforward=self.num_filters * self.num_heads,
+            dropout=0.1
+        )
+        self.transformer_encoder = nn.TransformerEncoder(
+            encoder_layer,
+            num_layers=self.num_encoder_layers
+        )
+        
+    def forward(self, x):
+        # x : [B, C, F, T] -> [B * T, C, F]
+        B, C, F, T = x.shape
+        x = x.permute(0, 3, 1, 2)
+        x = x.reshape(B * T, C, F)
+        
+        x = self.transformer_encoder(x)
+        
+        # [B * T, C, F] -> [B, T, C, F]
+        x = x.reshape(B, T, C, F)
+        return x
+
+# 마지막에 각 채널의 독립적인 FC Layer를 적용하여 채널별 특성을 추출합니다.
+class Cross_channel_FC_Layer(nn.Module):
+    def __init__(self, num_channels: int = 1, num_filters: int = 32):
+        super().__init__()
+        self.num_channels = num_channels
+        self.num_filters = num_filters
+        
+        self.fc_layer = nn.Sequential(
+            nn.Linear(self.num_filters, self.num_filters * 2),
+            nn.BatchNorm1d(self.num_filters * 2),
+            nn.ReLU(),
+            nn.Linear(self.num_filters * 2, self.num_filters),
+        )
+        
+    def forward(self, x):
+        x = self.fc_layer(x)
+        return x
+
+"""
+3. Fully Connected Layer: Cross-Channel Info Fusion
+모든 센서 채널로부터 추출된 특성을 융합합니다. + Bottleneck 역할을 합니다.
+Tensor Shape 변화:
+    Input:  [batch_size, seq_length, num_channels, num_filters]
+    FC:     [batch_size, seq_length, num_channels * num_filters]
+    Output: [batch_size, seq_length, 2 * num_filters]
+"""
+class Channel_Fusion_FC_Layer(nn.Module):
+    def __init__(self, num_channels: int = Config.INPUT_CHANNELS, num_filters: int = 32):
+        super().__init__()
+        self.num_channels = num_channels
+        self.num_filters = num_filters
+        
+        self.fc_layer = nn.Sequential(
+            nn.Linear(self.num_channels * self.num_filters, self.num_filters * 2),
+            nn.BatchNorm1d(self.num_filters * 2),
+            nn.ReLU()
         )
 
-        self.self_attention = nn.MultiheadAttention(
-            embed_dim=hidden_size,
-            num_heads=4,
-            batch_first=True)
+    def forward(self, x):
+        x = self.fc_layer(x)
+        return x
+
+"""
+4. One-Layer LSTM: Global Temporal Info Extraction
+LSTM을 사용하여 전역적인 시간 정보를 추출합니다.
+Tensor Shape 변화:
+    Input:  [batch_size, seq_length, 2 * num_filters]
+    LSTM
+    Output: [batch_size, seq_length, 2 * num_filters]
+"""
+class Global_Temporal_LSTM(nn.Module):
+    def __init__(self, input_size: int = 2 * 32, output_size: int = 2 * 32):
+        super().__init__()
+        self.input_size = input_size
+        self.output_size = output_size
         
-        self.flatten = nn.Flatten()
-
-        self.fc1 = nn.Linear(hidden_size, hidden_size // 2)
-
         self.lstm = nn.LSTM(
-            input_size=hidden_size // 2,
-            hidden_size=hidden_size // 2,
-            num_layers=2,
-            dropout=dropout,
-            batch_first=True)
-
-    def forward(self, x):
-        x = x.permute(0, 2, 1)
-        x = self.conv1d(x)
-        x = x.permute(0, 2, 1)
-        x = self.self_attention(x, x, x)
-        x = self.flatten(x)
-        x = self.fc1(x)
-        x = self.lstm(x)
-        return x
-
-# translator
-class Translator_block(nn.Module):
-    def __init__(self, input_dim, hidden_dim, dropout):
-        super().__init__()
-        self.input_dim = input_dim
-        self.hidden_dim = hidden_dim
-        
-        self.self_attention = nn.MultiheadAttention(
-            embed_dim=input_dim,
-            num_heads=4,
-            batch_first=True)
-        self.ffn = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim),
-            nn.LeakyReLU(0.1),
-            nn.Dropout(dropout),
-            nn.Linear(hidden_dim, input_dim)
+            input_size=self.input_size,
+            hidden_size=self.output_size,
+            num_layers=1,
+            batch_first=True,
+            bidirectional=False
         )
-    def forward(self, x):
-        x = self.self_attention(x, x, x)
-        x = self.ffn(x)
-        return x
 
-class Translator(nn.Module):
-    def __init__(self, input_size: int = 128, hidden_size: int = 64, 
-                 num_layers: int = 2, output_size: int = 2, dropout: float = 0.2):
+    def forward(self, x):
+        lstm_output, _ = self.lstm(x)
+
+        return lstm_output
+
+"""
+5.Temporal Attention: Global Temporal Info Enhancement
+LSTM 출력의 마지막 시간 축과 각 시간 축의 은닉 상태에 대해 가중 평균 합을 합치는 역할을 합니다.
+이를 통해 전역 시간 정보 강화를 합니다.
+Tensor Shape 변화:
+    Input:  [batch_size, seq_length, 2 * num_filters]
+    Attention: [batch_size, seq_length, 1]
+    Context:  [batch_size, 2 * num_filters]
+    Enhanced Context: [batch_size, 2 * num_filters]
+"""
+class Temporal_Attention(nn.Module):
+    def __init__(self, input_size: int = 2 * 32):
         super().__init__()
         self.input_size = input_size
-        self.hidden_size = hidden_size
-        self.num_layers = num_layers
-        self.output_size = output_size
-        self.dropout = dropout
 
-        self.translator_blocks = nn.ModuleList([Translator_block(input_size, hidden_size, dropout) for _ in range(num_layers)])
-        self.ffn = nn.Sequential(
-            nn.Linear(hidden_size, hidden_size // 2),
-            nn.LeakyReLU(0.1),
-            nn.Dropout(dropout),
-            nn.Linear(hidden_size // 2, hidden_size),
-            nn.LeakyReLU(0.1),
-            nn.Dropout(dropout),
-            nn.Linear(hidden_size, output_size)
-        )
+        self.attn_weights = nn.Linear(self.input_size, 1)
+        self.gamma = nn.Parameter(torch.zeros(1))
 
     def forward(self, x):
-        for translator_block in self.translator_blocks:
-            x = translator_block(x)
 
-        x = self.ffn(x)
+        last_hidden_state = x[:, -1, :] # [batch_size, 2 * 32]
 
+        attn_weights = self.attn_weights(x)
+        attn_weights = F.softmax(attn_weights, dim=1) # [batch_size, seq_length, 1]
+
+        # 시간별 중요도를 각 시간 feature에 곱하여 합치는 역할
+        context = torch.sum(attn_weights * x, dim=1) # [batch_size, 2 * 32]
+
+        enhanced_context = last_hidden_state + self.gamma * context # [batch_size, 2 * 32]
+
+        return enhanced_context
+
+# classification model
+""" 
+Output Layer: Fitness State Classification
+최종 출력 레이어를 정의합니다.
+Tensor Shape 변화:
+    Input:  [batch_size, 2 * num_filters]
+    Output: [batch_size, num_classes]
+"""
+class Output_Layer(nn.Module):
+    def __init__(self, input_size: int = 2 * 32, output_size: int = Config.OUTPUT_CHANNELS):
+        super().__init__()
+        self.input_size = input_size
+        self.output_size = output_size
+        
+        self.output_layer = nn.Sequential(
+            nn.Linear(self.input_size, self.output_size),
+            nn.Softmax(dim=1)
+        )
+        
+    def forward(self, x):
+        x = self.output_layer(x)
         return x
 
-# classifier TinyHAR
-class TinyHAR_classifier(nn.Module):
-    """
-    Temporal attention module
-    """
-    def __init__(self, sensor_channel, hidden_dim, output_size):
+""" 
+Source data encoder & Target data encoder
+"""
+class Encoder(nn.Module):
+    def __init__(self, input_size: int):
         super().__init__()
+        
+        for i in range(input_size):
+            self.cnn4channels[i] = Individual_CNN_1D(input_size=1, filter_size=32, kernel_size=5, stride=2, num_layers=4)
+        
+        self.cross_channel_transformer_encoder = Cross_channel_Transformer_Encoder(num_channels=Config.INPUT_CHANNELS, num_filters=32, seq_length=100, num_encoder_layers=1, num_heads=4)
+        for i in range(input_size):
+            self.cross_channel_fc_layer[i] = Cross_channel_FC_Layer(num_channels=1, num_filters=32)
 
-        self.fc_1 = nn.Linear(hidden_dim, hidden_dim)
-        self.weighs_activation = nn.Tanh() 
-        self.fc_2 = nn.Linear(hidden_dim, 1, bias=False)
-        self.sm = torch.nn.Softmax(dim=1)
-        self.gamma = nn.Parameter(torch.tensor([0.]))
-
-        self.fc_3 = nn.Linear(hidden_dim, output_size)
+        self.channel_fusion_fc_layer = Channel_Fusion_FC_Layer(num_channels=Config.INPUT_CHANNELS, num_filters=32)
+        
+        self.global_temporal_lstm = Global_Temporal_LSTM(input_size=2 * 32, output_size=2 * 32)
+        
+        self.temporal_attention = Temporal_Attention(input_size=2 * 32)
 
     def forward(self, x):
+        # x : [batch_size, num_channels, seq_length]
+        # 1. Individual CNN 1D
+        cnn_outputs = []
+        for i in range(Config.INPUT_CHANNELS):
+            cnn_output = self.cnn4channels[i](x[:, i, :])
+            cnn_outputs.append(cnn_output)
+        x = torch.cat(cnn_outputs, dim=1)
+        
+        # 2-1. Transformer encoder: Cross-channel info interaction
+        x = self.cross_channel_transformer_encoder(x)
+        B, T, C, F = x.shape
+        
+        # 2-2. Fully Connected Layer: Cross-Channel Info Fusion
+        fc_outputs = []
+        for i in range(Config.INPUT_CHANNELS):
+            fc_output = self.cross_channel_fc_layer[i](x[:, :, i, :])
+            fc_outputs.append(fc_output)
+        x = torch.cat(fc_outputs, dim=2)
+        
+        # 3. Channel Fusion FC Layer
+        x = x.reshape(B, T, C * F) #[B, T, C, F] -> [B, T, C * F]
+        x = self.channel_fusion_fc_layer(x)
 
-        # batch  sensor_channel feature_dim
-        #B C F
+        # 4. Global Temporal LSTM
+        x = self.global_temporal_lstm(x)
+        
+        # 5. Temporal Attention
+        x = self.temporal_attention(x)
+        
+        #Initialize weights
+        self._init_weights()
+        return x
+    
+    def _init_weights(self):
+        def _init_layer(layer):
+            if isinstance(layer, nn.Linear):
+                nn.init.kaiming_normal_(layer.weight, a=0.1)
+                if layer.bias is not None:
+                    nn.init.constant_(layer.bias, 0)
+            elif isinstance(layer, (nn.LayerNorm, nn.BatchNorm1d)):
+                nn.init.constant_(layer.weight, 1)
+                nn.init.constant_(layer.bias, 0)
+                
+        self.apply(_init_layer)
 
-        out = self.weighs_activation(self.fc_1(x))
+# classifier
 
-        out = self.fc_2(out).squeeze(2)
-
-        weights_att = self.sm(out).unsqueeze(2)
-
-        context = torch.sum(weights_att * x, 1)
-        context = x[:, -1, :] + self.gamma * context # 마지막 시점에 전역 요약을 더해줌
-
-        result = self.fc_3(context)
-
-        return result
 
 # =============================================================================
 # contrastive loss
